@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	/* Pinecraft — always dark */
+	:root,
+	:root[data-theme="light"],
+	:root[data-theme="dark"] {
+		color-scheme: dark;
+		/* Dark navy background  #0f1720 */
+		--theme-bg: 214deg 26% 9%;
+		/* Green nature accent  #4ade80 */
+		--theme-accent: 142deg 70% 58%;
+		/* Lime secondary  #a3e635 */
+		--theme-accent-2: 78deg 79% 56%;
+		/* Soft text  #e5e7eb */
+		--theme-text: 220deg 13% 91%;
+		/* Muted link  #22c55e */
+		--theme-link: 142deg 71% 45%;
+		/* Quote highlight */
+		--theme-quote: 142deg 70% 58%;
+		/* Card/glass surface  ~#162032 */
+		--theme-surface: 214deg 32% 14%;
+		/* Border color */
+		--theme-border: 214deg 20% 22%;
+	}
+
+	html {
+		@apply scroll-smooth;
+	}
+
+	body {
+		@apply mx-auto flex min-h-screen max-w-3xl flex-col bg-bgColor px-8 pt-16 font-mono text-sm font-normal text-textColor antialiased;
+	}
+
+	/* Landing layout — full width, no horizontal padding */
+	body[data-layout="landing"] {
+		@apply max-w-none px-0 pt-0;
+	}
+
+	/* Glass card utility */
+	.glass-card {
+		background: hsl(var(--theme-surface) / 0.7);
+		border: 1px solid hsl(var(--theme-border) / 1);
+		-webkit-backdrop-filter: blur(12px);
+		backdrop-filter: blur(12px);
+	}
+
+	/* Pixel grid background pattern for hero */
+	.pixel-grid {
+		background-image:
+			linear-gradient(rgba(74, 222, 128, 0.04) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(74, 222, 128, 0.04) 1px, transparent 1px);
+		background-size: 40px 40px;
+	}
+}

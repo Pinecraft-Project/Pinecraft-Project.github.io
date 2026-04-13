@@ -1,0 +1,33 @@
+---
+import type { SiteMeta } from "@/types";
+
+import BaseHead from "@/components/BaseHead.astro";
+import SkipLink from "@/components/SkipLink.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import LandingFooter from "@/components/landing/LandingFooter.astro";
+import LandingHeader from "@/components/landing/LandingHeader.astro";
+import { siteConfig } from "@/site-config";
+
+interface Props {
+	meta: SiteMeta;
+}
+
+const {
+	meta: { articleDate, description = siteConfig.description, ogImage, title },
+} = Astro.props;
+---
+
+<html lang={siteConfig.lang}>
+	<head>
+		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+	</head>
+	<body data-layout="landing">
+		<ThemeProvider />
+		<SkipLink />
+		<LandingHeader />
+		<main id="main">
+			<slot />
+		</main>
+		<LandingFooter />
+	</body>
+</html>

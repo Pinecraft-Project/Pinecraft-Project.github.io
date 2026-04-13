@@ -1,0 +1,35 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
+
+const allPosts = await getAllPosts();
+const allTags = getUniqueTagsWithCount(allPosts);
+
+const meta = {
+	description: "Список усіх тегів новинсів сервера",
+	title: "Теги",
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-6">Теги</h1>
+	<div class="space-y-4 flex flex-row items-baseline flex-wrap">
+		{
+			allTags.map(([tag, val]) => (
+				<div class="flex items-center mr-3">
+					<a
+						class="cactus-link inline-block"
+						data-astro-prefetch
+						href={`/tags/${tag}/`}
+						title={`Пости з тегом: ${tag}`}
+					>
+						&#35;{tag}
+					</a>
+					<sup class="inline-block ml-1">
+						{val}
+					</sup>
+				</div>
+			))
+		}
+	</div>
+</PageLayout>

@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import LandingLayout from "@/layouts/Landing.astro";
+
+const allWiki = (await getCollection("wiki")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<LandingLayout meta={{ title: "Вікі — Pinecraft", description: "Усе необхідне для початку та розвитку на Pinecraft." }}>
+	<div class="pt-24 pb-20 px-6 min-h-screen">
+		<div class="max-w-4xl mx-auto">
+			<div class="mb-12">
+				<h1 class="text-4xl font-bold text-white mb-3">Вікі</h1>
+				<p class="text-textColor/60">Усе необхідне для початку та розвитку на Pinecraft.</p>
+			</div>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+				{
+					allWiki.map((page) => (
+						<a
+							href={`/wiki/${page.slug}/`}
+							class="glass-card rounded-2xl p-6 flex flex-col gap-4 hover:border-accent/30 transition-all duration-300 hover:-translate-y-1 group"
+							style="border-color: rgba(74,222,128,0.1);"
+						>
+							<div class="flex items-start justify-between gap-3">
+								<span class="text-3xl">{page.data.icon}</span>
+								{page.data.badge && (
+									<span
+										class="text-xs px-2 py-0.5 rounded font-medium mt-1"
+										style={`background: ${page.data.badgeColor}22; color: ${page.data.badgeColor};`}
+									>
+										{page.data.badge}
+									</span>
+								)}
+							</div>
+							<div>
+								<h2 class="text-base font-bold text-white mb-1.5 group-hover:text-accent transition-colors">
+									{page.data.title}
+								</h2>
+								<p class="text-sm text-textColor/55 leading-relaxed">{page.data.description}</p>
+							</div>
+							<span class="text-xs text-accent/60 group-hover:text-accent transition-colors mt-auto">
+								Читати →
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</LandingLayout>

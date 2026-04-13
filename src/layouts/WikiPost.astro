@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+import LandingLayout from "@/layouts/Landing.astro";
+
+interface Props {
+	entry: CollectionEntry<"wiki">;
+}
+
+const { entry } = Astro.props;
+const { title, description, icon, badge, badgeColor } = entry.data;
+const { Content } = await entry.render();
+
+// Sidebar nav
+const allWiki = (await getCollection("wiki")).sort((a, b) => a.data.order - b.data.order);
+
+const badgeStyle = `background: ${badgeColor}22; color: ${badgeColor};`;
+---
+
+<LandingLayout meta={{ title: `${title} — Вікі Pinecraft`, description }}>
+	<div class="pt-24 pb-20 px-6 min-h-screen">
+		<div class="max-w-5xl mx-auto flex gap-8">
+			<!-- Sidebar -->
+			<aside class="hidden lg:block w-52 shrink-0">
+				<nav class="sticky top-28 flex flex-col gap-1" aria-label="Wiki navigation">
+					<a href="/wiki/" class="px-3 py-2 rounded-lg text-sm text-textColor/50 hover:text-textColor hover:bg-white/5 transition-colors">
+						← Назад до Вікі
+					</a>
+					<div class="my-2 border-t border-white/5"></div>
+					{
+						allWiki.map((page) => (
+							<a
+								href={`/wiki/${page.slug}/`}
+								aria-current={page.slug === entry.slug ? "page" : false}
+								class:list={[
+									"px-3 py-2 rounded-lg text-sm transition-colors",
+									page.slug === entry.slug
+										? "bg-accent/10 text-accent font-medium"
+										: "text-textColor/50 hover:text-textColor hover:bg-white/5",
+								]}
+							>
+								<span class="mr-1.5">{page.data.icon}</span>{page.data.title}
+							</a>
+						))
+					}
+				</nav>
+			</aside>
+
+			<!-- Content -->
+			<main class="flex-1 min-w-0">
+				<div class="mb-8">
+					{badge && (
+						<span class="text-xs px-2 py-0.5 rounded font-medium mb-3 inline-block" style={badgeStyle}>
+							{badge}
+						</span>
+					)}
+					<h1 class="text-3xl font-bold text-white mb-3 flex items-center gap-3">
+						<span>{icon}</span>{title}
+					</h1>
+					<p class="text-textColor/60 text-sm leading-relaxed">{description}</p>
+				</div>
+
+				<article
+					class="prose prose-invert prose-sm max-w-none
+					prose-headings:text-white prose-headings:font-bold
+					prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-3
+					prose-h3:text-base prose-h3:mt-6 prose-h3:mb-2
+					prose-p:text-textColor/70 prose-p:leading-relaxed
+					prose-li:text-textColor/70
+					prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+					prose-code:text-accent prose-code:bg-white/5 prose-code:px-1 prose-code:rounded prose-code:text-sm
+					prose-pre:bg-surface prose-pre:border prose-pre:border-white/10
+					prose-strong:text-white/90
+					prose-table:text-sm
+					prose-th:text-white/70 prose-th:font-semibold
+					prose-td:text-textColor/60
+					prose-blockquote:border-accent/40 prose-blockquote:text-textColor/60"
+				>
+					<Content />
+				</article>
+			</main>
+		</div>
+	</div>
+</LandingLayout>

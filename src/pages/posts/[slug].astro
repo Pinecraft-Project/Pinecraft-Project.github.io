@@ -1,0 +1,14 @@
+---
+import { getAllPosts } from "@/data/post";
+export const getStaticPaths = async () => {
+  const posts = await getAllPosts();
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+};
+const { slug } = Astro.params;
+const dest = `/news/${slug}/`;
+---
+<!doctype html>
+<html><head>
+<meta http-equiv="refresh" content={`0;url=${dest}`} />
+<script is:inline set:html={`window.location.replace('${dest}');`}></script>
+</head><body>Redirecting to <a href={dest}>{dest}</a></body></html>

@@ -1,0 +1,8 @@
+---
+import { getEntry } from "astro:content";
+import WikiPost from "@/layouts/WikiPost.astro";
+const entry = await getEntry("wiki", "cities");
+if (!entry) return Astro.redirect("/wiki/");
+const { Content } = await entry.render();
+---
+<WikiPost {entry}><Content /></WikiPost>

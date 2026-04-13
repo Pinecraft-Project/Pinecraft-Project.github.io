@@ -1,0 +1,24 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from "astro:content";
+
+import WikiPost from "@/layouts/WikiPost.astro";
+
+export const getStaticPaths = (async () => {
+	const entries = await getCollection("wiki");
+	const staticSlugs = new Set(["rules", "bedrock", "cities", "map"]);
+	return entries
+		.filter((e) => !staticSlugs.has(e.slug))
+		.map((entry) => ({
+			params: { slug: entry.slug },
+			props: { entry },
+		}));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<WikiPost {entry}><Content /></WikiPost>

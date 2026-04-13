@@ -1,0 +1,79 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+
+import Pagination from "@/components/Paginator.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import { getAllPosts, getUniqueTags, groupPostsByYear, sortMDByDate } from "@/data/post";
+import LandingLayout from "@/layouts/Landing.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allPosts = await getAllPosts();
+	const allPostsByDate = sortMDByDate(allPosts);
+	const uniqueTags = getUniqueTags(allPosts);
+	return paginate(allPostsByDate, { pageSize: 10, props: { uniqueTags } });
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"post">>;
+	uniqueTags: string[];
+}
+
+const { page, uniqueTags } = Astro.props;
+
+const paginationProps = {
+	...(page.url.prev && { prevUrl: { text: `← Попередня`, url: page.url.prev } }),
+	...(page.url.next && { nextUrl: { text: `Наступна →`, url: page.url.next } }),
+};
+
+const groupedByYear = groupPostsByYear(page.data);
+const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
+---
+
+<LandingLayout meta={{ title: "Новини — Pinecraft", description: "Усі новини, оновлення та анонси сервера Pinecraft." }}>
+	<div class="pt-24 pb-20 px-6 min-h-screen">
+		<div class="max-w-5xl mx-auto">
+			<h1 class="text-4xl font-bold text-white mb-10">Новини</h1>
+
+			<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
+				<section aria-label="Список новин">
+					{
+						descYearKeys.map((yearKey) => (
+							<>
+								<h2 class="text-lg font-semibold text-accent mb-4">{yearKey}</h2>
+								<ul class="mb-10 space-y-6">
+									{groupedByYear[yearKey]?.map((p) => (
+										<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+											<PostPreview post={p} withDesc />
+										</li>
+									))}
+								</ul>
+							</>
+						))
+					}
+					<Pagination {...paginationProps} />
+				</section>
+
+				{
+					!!uniqueTags.length && (
+						<aside>
+							<h2 class="text-base font-semibold text-white/70 uppercase tracking-widest mb-4">Теги</h2>
+							<ul class="flex flex-wrap gap-2">
+								{uniqueTags.map((tag) => (
+									<li>
+										<a
+											href={`/tags/${tag}/`}
+											class="text-xs px-3 py-1 rounded-full border border-accent/20 text-accent/80 hover:border-accent/50 hover:text-accent transition-colors"
+										>
+											#{tag}
+										</a>
+									</li>
+								))}
+							</ul>
+						</aside>
+					)
+				}
+			</div>
+		</div>
+	</div>
+</LandingLayout>

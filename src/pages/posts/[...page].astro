@@ -1,0 +1,9 @@
+---
+export const getStaticPaths = () => [{ params: { page: undefined } }];
+const dest = "/news/";
+---
+<!doctype html>
+<html><head>
+<meta http-equiv="refresh" content={`0;url=${dest}`} />
+<script is:inline set:html={`window.location.replace('${dest}');`}></script>
+</head><body>Redirecting to <a href={dest}>{dest}</a></body></html>

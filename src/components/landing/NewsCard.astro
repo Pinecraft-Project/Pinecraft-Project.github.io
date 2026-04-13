@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+interface Props {
+	post: CollectionEntry<"post">;
+}
+const { post } = Astro.props;
+const { title, description, publishDate, tags } = post.data;
+---
+
+<a
+	href={`/news/${post.slug}/`}
+	class="glass-card rounded-2xl p-5 flex flex-col gap-3 hover:border-accent/30 transition-all duration-300 hover:-translate-y-0.5 group"
+	style="border-color: rgba(74,222,128,0.1);"
+>
+	{tags.length > 0 && (
+		<div class="flex gap-2 flex-wrap">
+			{tags.slice(0, 2).map((tag: string) => (
+				<span class="text-xs px-2 py-0.5 rounded font-medium" style="background: rgba(74,222,128,0.1); color: #4ade80;">
+					{tag}
+				</span>
+			))}
+		</div>
+	)}
+	<h3 class="text-sm font-bold text-white group-hover:text-accent transition-colors leading-snug">{title}</h3>
+	<p class="text-xs text-textColor/55 leading-relaxed line-clamp-2">{description}</p>
+	<div class="flex items-center justify-between mt-auto pt-2 text-xs text-textColor/40">
+		<FormattedDate date={publishDate} />
+		<span class="text-accent/70 group-hover:text-accent transition-colors">Читати →</span>
+	</div>
+</a>

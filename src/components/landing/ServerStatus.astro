@@ -1,0 +1,92 @@
+---
+---
+
+<div
+	class="glass-card rounded-2xl p-6 max-w-lg mx-auto w-full"
+	style="border-color: rgba(74,222,128,0.15);"
+	id="server-status-card"
+>
+	<div class="flex items-center justify-between mb-6">
+		<h3 class="text-base font-bold text-white">Статус сервера</h3>
+		<span
+			class="text-xs px-2 py-1 rounded-full font-medium"
+			id="status-badge"
+			style="background: rgba(74,222,128,0.15); color: #4ade80;"
+		>
+			Checking...
+		</span>
+	</div>
+
+	<div class="grid grid-cols-3 gap-4 text-center">
+		<div class="flex flex-col gap-1">
+			<span class="text-2xl font-bold text-accent" id="player-count">--</span>
+			<span class="text-xs text-textColor/50">Гравці</span>
+		</div>
+		<div class="flex flex-col gap-1">
+			<span class="text-2xl font-bold text-accent" id="max-players">--</span>
+			<span class="text-xs text-textColor/50">Місць</span>
+		</div>
+		<div class="flex flex-col gap-1">
+			<span class="text-2xl font-bold text-accent" id="server-version">--</span>
+			<span class="text-xs text-textColor/50">Версія</span>
+		</div>
+	</div>
+
+	<div class="mt-5 pt-5 border-t border-white/5 flex items-center justify-between text-xs text-textColor/40">
+		<span class="font-mono">pinecraft.top</span>
+		<button
+			id="refresh-status"
+			class="hover:text-accent transition-colors"
+			aria-label="Оновити статус сервера"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+			</svg>
+		</button>
+	</div>
+</div>
+
+<script>
+	async function fetchStatus() {
+		const badge = document.getElementById("status-badge")!;
+		const playerCount = document.getElementById("player-count")!;
+		const maxPlayers = document.getElementById("max-players")!;
+		const serverVersion = document.getElementById("server-version")!;
+
+		badge.textContent = "Перевірка...";
+		badge.style.background = "rgba(100,116,139,0.2)";
+		badge.style.color = "#94a3b8";
+
+		try {
+			const res = await fetch("https://api.mcsrvstat.us/3/pinecraft.top", {
+				signal: AbortSignal.timeout(6000),
+			});
+			if (!res.ok) throw new Error("HTTP error");
+			const data = await res.json();
+
+			if (data.online) {
+				badge.textContent = "Онлайн";
+				badge.style.background = "rgba(74,222,128,0.15)";
+				badge.style.color = "#4ade80";
+				playerCount.textContent = String(data.players?.online ?? 0);
+				maxPlayers.textContent = String(data.players?.max ?? "?");
+				const rawVer: string = data.version ?? "?";
+				serverVersion.textContent = rawVer.replace("Paper ", "").split(" ")[0] ?? rawVer;
+			} else {
+				badge.textContent = "Офлайн";
+				badge.style.background = "rgba(239,68,68,0.15)";
+				badge.style.color = "#f87171";
+				playerCount.textContent = "0";
+				maxPlayers.textContent = "--";
+				serverVersion.textContent = "--";
+			}
+		} catch {
+				badge.textContent = "Недоступно";
+			badge.style.background = "rgba(100,116,139,0.15)";
+			badge.style.color = "#94a3b8";
+		}
+	}
+
+	fetchStatus();
+	document.getElementById("refresh-status")?.addEventListener("click", fetchStatus);
+</script>

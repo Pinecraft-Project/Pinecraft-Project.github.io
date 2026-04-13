@@ -1,0 +1,55 @@
+---
+interface Props {
+	src?: string;
+	title?: string;
+}
+const { src = "https://map.pinecraft.top", title = "Pinecraft Live Map" } = Astro.props;
+---
+
+<div
+	class="glass-card rounded-2xl overflow-hidden relative"
+	style="border-color: rgba(74,222,128,0.15); aspect-ratio: 16/9; min-height: 340px;"
+>
+	<!-- Placeholder shown before iframe loads -->
+	<div
+		class="absolute inset-0 flex flex-col items-center justify-center gap-4"
+		id="map-placeholder"
+		style="background: linear-gradient(135deg, #071820 0%, #091f0e 100%);"
+	>
+		<div class="pixel-grid absolute inset-0 opacity-30"></div>
+		<div class="relative z-10 flex flex-col items-center gap-3">
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-accent/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+			</svg>
+			<p class="text-textColor/50 text-sm font-medium">Карта завантажується...</p>
+			<a
+				href={src}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="px-4 py-2 rounded-lg bg-accent/10 border border-accent/20 text-accent text-xs hover:bg-accent/20 transition-colors"
+			>
+				Відкрити BlueMap →
+			</a>
+		</div>
+	</div>
+
+	<iframe
+		src={src}
+		title={title}
+		allow="fullscreen"
+		loading="lazy"
+		class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-500"
+		id="map-iframe"
+	></iframe>
+</div>
+
+<script>
+	const iframe = document.getElementById("map-iframe") as HTMLIFrameElement | null;
+	const placeholder = document.getElementById("map-placeholder");
+	if (iframe) {
+		iframe.addEventListener("load", () => {
+			iframe.style.opacity = "1";
+			if (placeholder) placeholder.style.display = "none";
+		});
+	}
+</script>

@@ -1,0 +1,30 @@
+---
+interface Props {
+	icon: string;
+	title: string;
+	description: string;
+	color?: string;
+}
+
+const { icon, title, description, color = "accent" } = Astro.props;
+---
+
+<div
+	class="glass-card rounded-2xl p-6 flex flex-col gap-4 hover:border-accent/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
+	style="border-color: rgba(74,222,128,0.12);"
+>
+	<div
+		class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+		style="background: rgba(74,222,128,0.1);"
+	>
+		{icon}
+	</div>
+	<div>
+		<h3 class="text-base font-bold text-white mb-1.5 group-hover:text-accent transition-colors">
+			{title}
+		</h3>
+		<p class="text-sm text-textColor/60 leading-relaxed">
+			{description}
+		</p>
+	</div>
+</div>
