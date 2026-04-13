@@ -1,3 +1,5 @@
+import type { ImageMetadata, MarkdownHeading } from "astro";
+
 export interface SiteConfig {
 	author: string;
 	authorGithub?: string;
@@ -84,3 +86,42 @@ export interface Summary {
 	"content-type": string;
 	value: string;
 }
+
+interface ContentRenderResult {
+	Content: any;
+	headings: MarkdownHeading[];
+	remarkPluginFrontmatter: Record<string, unknown>;
+}
+
+interface ContentEntryLike<TData> {
+	slug: string;
+	data: TData;
+	render: () => Promise<ContentRenderResult>;
+}
+
+export interface PostData {
+	coverImage?: {
+		alt: string;
+		src: ImageMetadata;
+	};
+	description: string;
+	draft: boolean;
+	pin: boolean;
+	ogImage?: string;
+	publishDate: Date;
+	tags: string[];
+	title: string;
+	updatedDate?: Date;
+}
+
+export interface EventData {
+	title: string;
+	date: string;
+	description: string;
+	reward?: string;
+	badge?: string;
+	status: "upcoming" | "active" | "ended";
+}
+
+export type PostEntry = ContentEntryLike<PostData>;
+export type EventEntry = ContentEntryLike<EventData>;

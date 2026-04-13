@@ -1,9 +1,9 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
+import type { PostEntry } from "@/types";
 
 interface Props {
-	post: CollectionEntry<"post">;
+	post: PostEntry;
 }
 const { post } = Astro.props;
 const { title, description, publishDate, tags } = post.data;

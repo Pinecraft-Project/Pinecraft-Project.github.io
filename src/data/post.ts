@@ -1,22 +1,22 @@
 import { siteConfig } from "@/site-config";
-import { type CollectionEntry, getCollection } from "astro:content";
+import type { PostEntry } from "@/types";
+import { getCollection } from "astro:content";
 
 /** filter out draft posts based on the environment */
-export async function getAllPosts() {
-	return await getCollection("post", ({ data }) => {
-		return import.meta.env.PROD ? !data.draft : true;
-	});
+export async function getAllPosts(): Promise<PostEntry[]> {
+	const posts = (await getCollection("post")) as PostEntry[];
+	return import.meta.env.PROD ? posts.filter((post) => !post.data.draft) : posts;
 }
 
 /** returns the date of the post based on option in siteConfig.sortPostsByUpdatedDate */
-export function getPostSortDate(post: CollectionEntry<"post">) {
+export function getPostSortDate(post: PostEntry) {
 	return siteConfig.sortPostsByUpdatedDate && post.data.updatedDate !== undefined
 		? new Date(post.data.updatedDate)
 		: new Date(post.data.publishDate);
 }
 
 /** sort post by date (by siteConfig.sortPostsByUpdatedDate), desc.*/
-export function sortMDByDate(posts: CollectionEntry<"post">[]) {
+export function sortMDByDate(posts: PostEntry[]) {
 	return posts.sort((a, b) => {
 		const aDate = getPostSortDate(a).valueOf();
 		const bDate = getPostSortDate(b).valueOf();
@@ -25,8 +25,8 @@ export function sortMDByDate(posts: CollectionEntry<"post">[]) {
 }
 
 /** sort post by date (by siteConfig.sortPostsByUpdatedDate), desc.*/
-export function sortPinnedMDByDate(posts: CollectionEntry<"post">[]) {
-	return posts.filter(p => p.data.pin).sort((a, b) => {
+export function sortPinnedMDByDate(posts: PostEntry[]) {
+	return posts.filter((p) => p.data.pin).sort((a, b) => {
 		const aDate = getPostSortDate(a).valueOf();
 		const bDate = getPostSortDate(b).valueOf();
 		return bDate - aDate;
@@ -36,8 +36,8 @@ export function sortPinnedMDByDate(posts: CollectionEntry<"post">[]) {
 /** groups posts by year (based on option siteConfig.sortPostsByUpdatedDate), using the year as the key
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  */
-export function groupPostsByYear(posts: CollectionEntry<"post">[]) {
-	return posts.reduce<Record<string, CollectionEntry<"post">[]>>((acc, post) => {
+export function groupPostsByYear(posts: PostEntry[]) {
+	return posts.reduce<Record<string, PostEntry[]>>((acc, post) => {
 		const year = getPostSortDate(post).getFullYear();
 		if (!acc[year]) {
 			acc[year] = [];
@@ -50,21 +50,21 @@ export function groupPostsByYear(posts: CollectionEntry<"post">[]) {
 /** returns all tags created from posts (inc duplicate tags)
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  *  */
-export function getAllTags(posts: CollectionEntry<"post">[]) {
+export function getAllTags(posts: PostEntry[]) {
 	return posts.flatMap((post) => [...post.data.tags]);
 }
 
 /** returns all unique tags created from posts
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  *  */
-export function getUniqueTags(posts: CollectionEntry<"post">[]) {
+export function getUniqueTags(posts: PostEntry[]) {
 	return [...new Set(getAllTags(posts))];
 }
 
 /** returns a count of each unique tag - [[tagName, count], ...]
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  *  */
-export function getUniqueTagsWithCount(posts: CollectionEntry<"post">[]): [string, number][] {
+export function getUniqueTagsWithCount(posts: PostEntry[]): [string, number][] {
 	return [
 		...getAllTags(posts).reduce(
 			(acc, t) => acc.set(t, (acc.get(t) ?? 0) + 1),

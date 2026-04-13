@@ -1,8 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import LandingLayout from "@/layouts/Landing.astro";
+import type { EventEntry } from "@/types";
 
-const allEvents = await getCollection("event");
+const allEvents = (await getCollection("event")) as EventEntry[];
 
 type Status = "upcoming" | "active" | "ended";
 const statusOrder: Record<Status, number> = { active: 0, upcoming: 1, ended: 2 };

@@ -9,11 +9,12 @@ import Section from "@/components/landing/Section.astro";
 import ServerStatus from "@/components/landing/ServerStatus.astro";
 import { getAllPosts, sortMDByDate } from "@/data/post";
 import LandingLayout from "@/layouts/Landing.astro";
+import type { EventEntry } from "@/types";
 
 const allPosts = await getAllPosts();
 const latestPosts = sortMDByDate(allPosts).slice(0, 3);
 
-const allEvents = await getCollection("event");
+const allEvents = (await getCollection("event")) as EventEntry[];
 type Status = "upcoming" | "active" | "ended";
 const statusOrder: Record<Status, number> = { active: 0, upcoming: 1, ended: 2 };
 const latestEvents = allEvents

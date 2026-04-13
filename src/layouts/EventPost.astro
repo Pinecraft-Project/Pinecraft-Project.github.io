@@ -1,11 +1,11 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { EventEntry } from "@/types";
 import { getCollection } from "astro:content";
 
 import LandingLayout from "@/layouts/Landing.astro";
 
 interface Props {
-	entry: CollectionEntry<"event">;
+	entry: EventEntry;
 }
 
 const { entry } = Astro.props;
@@ -21,7 +21,7 @@ const statusConfig: Record<Status, { label: string; bg: string; color: string }>
 const cfg = statusConfig[status as Status];
 
 // All events for recent-events sidebar
-const allEvents = await getCollection("event");
+const allEvents = (await getCollection("event")) as EventEntry[];
 ---
 
 <LandingLayout meta={{ title: `${title} — Pinecraft`, description }}>

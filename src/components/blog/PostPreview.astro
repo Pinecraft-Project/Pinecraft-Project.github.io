@@ -1,13 +1,13 @@
 ---
 import type { HTMLTag, Polymorphic } from "astro/types";
-import type { CollectionEntry } from "astro:content";
+import type { PostEntry } from "@/types";
 
 import { getPostSortDate } from "@/data/post";
 
 import FormattedDate from "../FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
-	post: CollectionEntry<"post">;
+	post: PostEntry;
 	withDesc?: boolean;
 };
 
