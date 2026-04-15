@@ -14,6 +14,15 @@ function normalizeGalleryFilename(filename: string) {
 	}
 }
 
+function resolveGallerySrc(src: unknown) {
+	if (typeof src === "string") return src;
+	if (src && typeof src === "object" && "src" in src) {
+		const imageSrc = (src as { src?: unknown }).src;
+		return typeof imageSrc === "string" ? imageSrc : "";
+	}
+	return "";
+}
+
 const images = Object.entries(rawImages).map(([path, src]) => {
 	const filename = normalizeGalleryFilename(path.split("/").pop() ?? "");
 	const caption = filename
@@ -22,7 +31,7 @@ const images = Object.entries(rawImages).map(([path, src]) => {
 		.replace(/\s+/g, " ")
 		.trim()
 		.replace(/\b\w/g, (c) => c.toUpperCase());
-	return { src, alt: caption, caption };
+	return { src: resolveGallerySrc(src), alt: caption, caption };
 });
 
 const gradients = [
