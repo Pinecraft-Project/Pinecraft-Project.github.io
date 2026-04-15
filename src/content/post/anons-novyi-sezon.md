@@ -11,7 +11,15 @@ pin: true
 ogImage: "https://media.discordapp.net/attachments/1394740849010540595/1462859363868872724/SunsetTheNewBeginning.png?ex=69e11a72&is=69dfc8f2&hm=cd6a17783638bd2a8520f369f647fe7821e84f2d328f26ac3ae77fa48a5416e4&=&format=webp&quality=lossless&width=698&height=401"
 ---
 
-![Анонс нового сезону](https://media.discordapp.net/attachments/1394740849010540595/1462859363868872724/SunsetTheNewBeginning.png?ex=69e11a72&is=69dfc8f2&hm=cd6a17783638bd2a8520f369f647fe7821e84f2d328f26ac3ae77fa48a5416e4&=&format=webp&quality=lossless&width=698&height=401)
+<p>
+  <img
+    src="https://media.discordapp.net/attachments/1394740849010540595/1462859363868872724/SunsetTheNewBeginning.png?ex=69e11a72&is=69dfc8f2&hm=cd6a17783638bd2a8520f369f647fe7821e84f2d328f26ac3ae77fa48a5416e4&=&format=webp&quality=lossless&width=698&height=401"
+    alt="Анонс нового сезону"
+    loading="lazy"
+    decoding="async"
+    referrerpolicy="no-referrer"
+  />
+</p>
 
 Well.. Well... Well...
 
