@@ -118,6 +118,8 @@ export interface EventData {
 	title: string;
 	date: string;
 	description: string;
+	imageUrl?: string;
+	bannerUrl?: string;
 	reward?: string;
 	badge?: string;
 	status: "upcoming" | "active" | "ended";

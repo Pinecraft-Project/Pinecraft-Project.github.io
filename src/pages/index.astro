@@ -137,6 +137,18 @@ const galleryItems = [
 							class="glass-card rounded-2xl p-5 flex flex-col gap-3 hover:border-accent/30 transition-all duration-300 hover:-translate-y-0.5 group"
 							style="border-color: rgba(74,222,128,0.1);"
 						>
+							{ev.data.imageUrl && (
+								<div class="overflow-hidden rounded-xl border border-white/10 bg-white/5">
+									<img
+										src={ev.data.imageUrl}
+										alt={ev.data.title}
+										class="w-full aspect-square object-cover"
+										loading="lazy"
+										decoding="async"
+										referrerpolicy="no-referrer"
+									/>
+								</div>
+							)}
 							<div class="flex items-start justify-between gap-3">
 								<div class="flex-1 min-w-0">
 									{ev.data.badge && (

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title, date, description, reward, badge, status } = entry.data;
+const { title, date, description, reward, badge, status, bannerUrl } = entry.data;
 const { Content } = await entry.render();
 
 type Status = "upcoming" | "active" | "ended";
@@ -84,6 +84,24 @@ const allEvents = (await getCollection("event")) as EventEntry[];
 						)}
 					</div>
 				</div>
+
+				{(bannerUrl) && (
+					<div class="mb-8 space-y-4">
+						{bannerUrl && (
+							<div class="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+								<img
+									src={bannerUrl}
+									alt={`${title} banner`}
+									class="w-full max-h-[320px] object-cover"
+									loading="lazy"
+									decoding="async"
+									referrerpolicy="no-referrer"
+								/>
+							</div>
+						)}
+
+					</div>
+				)}
 
 				<article
 					class="prose prose-invert prose-sm max-w-none

@@ -51,6 +51,8 @@ const event = defineCollection({
 		title: z.string(),
 		date: z.string(),
 		description: z.string().min(50),
+		imageUrl: z.string().optional(),
+		bannerUrl: z.string().optional(),
 		reward: z.string().optional(),
 		badge: z.string().optional(),
 		status: z.enum(["upcoming", "active", "ended"]).default("upcoming"),
