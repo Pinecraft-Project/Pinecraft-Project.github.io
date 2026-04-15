@@ -88,8 +88,12 @@ const gradients = [
 						</div>
 
 						{/* Gallery Modal */}
-						<div id="gallery-modal-full" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-							<div class="relative w-full h-full max-w-6xl max-h-screen flex flex-col items-center justify-center">
+						<div
+							id="gallery-modal-full"
+							data-open="false"
+							class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 opacity-0 pointer-events-none backdrop-blur-sm transition-opacity data-[open=true]:opacity-100 data-[open=true]:pointer-events-auto"
+						>
+							<div class="relative flex h-full w-full max-h-screen max-w-6xl flex-col items-center justify-center">
 								{/* Close Button */}
 								<button
 									id="gallery-close-full"
@@ -183,12 +187,12 @@ const gradients = [
 	function openGallery(index: number) {
 		currentIndex = index;
 		updateImage();
-		modal?.classList.remove("hidden");
+		modal?.setAttribute("data-open", "true");
 		document.body.style.overflow = "hidden";
 	}
 
 	function closeGallery() {
-		modal?.classList.add("hidden");
+		modal?.setAttribute("data-open", "false");
 		document.body.style.overflow = "";
 	}
 
@@ -235,13 +239,14 @@ const gradients = [
 
 	// Close on Escape key
 	document.addEventListener("keydown", (e) => {
-		if (e.key === "Escape" && !modal?.classList.contains("hidden")) {
+		const isOpen = modal?.getAttribute("data-open") === "true";
+		if (e.key === "Escape" && isOpen) {
 			closeGallery();
 		}
-		if (e.key === "ArrowLeft" && !modal?.classList.contains("hidden")) {
+		if (e.key === "ArrowLeft" && isOpen) {
 			prevImage();
 		}
-		if (e.key === "ArrowRight" && !modal?.classList.contains("hidden")) {
+		if (e.key === "ArrowRight" && isOpen) {
 			nextImage();
 		}
 	});
