@@ -7,8 +7,8 @@ const { src = "https://map.pinecraft.top", title = "Pinecraft Live Map" } = Astr
 ---
 
 <div
-	class="glass-card rounded-2xl overflow-hidden relative"
-	style="border-color: rgba(74,222,128,0.15); aspect-ratio: 16/9; min-height: 340px;"
+	class="glass-card rounded-2xl overflow-hidden relative w-full max-w-full min-w-0"
+	style="border-color: rgba(74,222,128,0.15); aspect-ratio: 16/9; min-height: clamp(260px, 55vw, 340px);"
 >
 	<!-- Placeholder shown before iframe loads -->
 	<div
@@ -38,7 +38,7 @@ const { src = "https://map.pinecraft.top", title = "Pinecraft Live Map" } = Astr
 		title={title}
 		allow="fullscreen"
 		loading="lazy"
-		class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-500"
+		class="absolute inset-0 block w-full h-full max-w-full border-0 opacity-0 transition-opacity duration-500"
 		id="map-iframe"
 	></iframe>
 </div>
