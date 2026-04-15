@@ -33,7 +33,7 @@
 	</div>
 
 	<div class="mt-5 pt-5 border-t border-white/5 flex items-center justify-between text-xs text-textColor/40">
-		<span class="font-mono">pinecraft.top</span>
+		<span class="font-mono">play.pinecraft.top</span>
 		<button
 			id="refresh-status"
 			class="hover:text-accent transition-colors"
@@ -58,7 +58,7 @@
 		badge.style.color = "#94a3b8";
 
 		try {
-			const res = await fetch("https://api.mcsrvstat.us/3/pinecraft.top", {
+			const res = await fetch("https://api.mcsrvstat.us/3/play.pinecraft.top", {
 				signal: AbortSignal.timeout(6000),
 			});
 			if (!res.ok) throw new Error("HTTP error");
