@@ -8,11 +8,21 @@ const rawImages = import.meta.glob<{ default: ImageMetadata }>(
 	{ eager: true },
 );
 
+function normalizeGalleryFilename(filename: string) {
+	try {
+		return decodeURIComponent(filename);
+	} catch {
+		return filename;
+	}
+}
+
 const images = Object.entries(rawImages).map(([path, mod]) => {
-	const filename = path.split("/").pop() ?? "";
+	const filename = normalizeGalleryFilename(path.split("/").pop() ?? "");
 	const caption = filename
 		.replace(/\.[^.]+$/, "")
-		.replace(/[-_]/g, " ")
+		.replace(/[+_-]/g, " ")
+		.replace(/\s+/g, " ")
+		.trim()
 		.replace(/\b\w/g, (c) => c.toUpperCase());
 	return { src: mod.default, alt: caption, caption };
 });
