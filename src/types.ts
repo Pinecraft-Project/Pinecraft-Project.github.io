@@ -119,6 +119,17 @@ export interface PostData {
 	updatedDate?: Date;
 }
 
+export interface WikiData {
+	title: string;
+	description: string;
+	icon?: string;
+	badge?: string;
+	badgeColor?: string;
+	order: number;
+	pin?: boolean;
+	draft?: boolean;
+}
+
 export interface EventData {
 	title: string;
 	date: string;
@@ -128,8 +139,10 @@ export interface EventData {
 	reward?: string;
 	badge?: string;
 	pin?: boolean;
+	draft?: boolean;
 	status: "upcoming" | "active" | "ended";
 }
 
 export type PostEntry = ContentEntryLike<PostData>;
+export type WikiEntry = ContentEntryLike<WikiData>;
 export type EventEntry = ContentEntryLike<EventData>;

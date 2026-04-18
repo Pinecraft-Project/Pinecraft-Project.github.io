@@ -32,8 +32,9 @@ export function getHeroPosts(posts: PostEntry[], limit = 3) {
 	return [...pinnedPosts, ...latestPosts].slice(0, limit);
 }
 
-export function getHeroEvents(events: EventEntry[], limit = 3) {
+export function getVisibleEvents(events: EventEntry[]) {
 	return [...events]
+		.filter((event) => !event.data.draft)
 		.sort((a, b) => {
 			const pinDiff = Number(Boolean(b.data.pin)) - Number(Boolean(a.data.pin));
 			if (pinDiff !== 0) return pinDiff;
@@ -43,6 +44,20 @@ export function getHeroEvents(events: EventEntry[], limit = 3) {
 			if (statusDiff !== 0) return statusDiff;
 
 			return parseMaybeDate(b.data.date) - parseMaybeDate(a.data.date);
-		})
-		.slice(0, limit);
+		});
+}
+
+export function getHeroEvents(events: EventEntry[], limit = 3) {
+	return getVisibleEvents(events).slice(0, limit);
+}
+
+export function getVisibleWikiPages<T extends { data: { draft?: boolean; pin?: boolean; order?: number } }>(pages: T[]) {
+	return [...pages]
+		.filter((page) => !page.data.draft)
+		.sort((a, b) => {
+			const pinDiff = Number(Boolean(b.data.pin)) - Number(Boolean(a.data.pin));
+			if (pinDiff !== 0) return pinDiff;
+
+			return (a.data.order ?? 99) - (b.data.order ?? 99);
+		});
 }

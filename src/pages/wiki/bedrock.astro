@@ -2,7 +2,7 @@
 import { getEntry } from "astro:content";
 import WikiPost from "@/layouts/WikiPost.astro";
 const entry = await getEntry("wiki", "bedrock");
-if (!entry) return Astro.redirect("/wiki/");
+if (!entry || entry.data.draft) return Astro.redirect("/wiki/");
 const { Content } = await entry.render();
 ---
 <WikiPost {entry}><Content /></WikiPost>

@@ -8,7 +8,7 @@ export const getStaticPaths = (async () => {
 	const entries = await getCollection("wiki");
 	const staticSlugs = new Set(["rules", "bedrock", "cities", "map"]);
 	return entries
-		.filter((e) => !staticSlugs.has(e.slug))
+		.filter((e) => !staticSlugs.has(e.slug) && !e.data.draft)
 		.map((entry) => ({
 			params: { slug: entry.slug },
 			props: { entry },

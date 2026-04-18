@@ -1,17 +1,26 @@
 import rawGalleryMetadata from "@/data/gallery.metadata.json";
 import type { ImageMetadata } from "astro";
 
-const galleryMetadata = rawGalleryMetadata as Record<string, { date: string; title: string }>;
+const galleryMetadata = rawGalleryMetadata as Record<
+	string,
+	{ date: string; title: string; pin?: boolean; draft?: boolean }
+>;
 
 export interface GalleryItem {
 	alt: string;
 	caption: string;
 	date: string;
+	draft: boolean;
 	fileName: string;
+	pin: boolean;
 	src: string;
 	title: string;
 }
 
+function parseMaybeDate(value: string) {
+	const parsed = new Date(value).valueOf();
+	return Number.isNaN(parsed) ? 0 : parsed;
+}
 
 const rawImages = import.meta.glob<string | ImageMetadata>(
 	"/src/assets/gallery/*.{jpg,jpeg,png,webp,gif}",
@@ -45,21 +54,36 @@ function resolveGallerySrc(src: unknown) {
 }
 
 export function getGalleryItems(): GalleryItem[] {
-	return Object.entries(rawImages).map(([path, src]) => {
-		const fileName = normalizeGalleryFilename(path.split("/").pop() ?? "");
-		const fallbackTitle = prettifyGalleryTitle(fileName);
-		const meta = galleryMetadata[fileName] ?? {
-			date: "Без дати",
-			title: fallbackTitle,
-		};
+	return Object.entries(rawImages)
+		.map(([path, src]) => {
+			const fileName = normalizeGalleryFilename(path.split("/").pop() ?? "");
+			const fallbackTitle = prettifyGalleryTitle(fileName);
+			const meta = galleryMetadata[fileName] ?? {
+				date: "Без дати",
+				title: fallbackTitle,
+				pin: false,
+				draft: false,
+			};
 
-		return {
-			alt: meta.title,
-			caption: meta.title,
-			date: meta.date,
-			fileName,
-			src: resolveGallerySrc(src),
-			title: meta.title,
-		};
-	});
+			return {
+				alt: meta.title,
+				caption: meta.title,
+				date: meta.date,
+				draft: Boolean(meta.draft),
+				fileName,
+				pin: Boolean(meta.pin),
+				src: resolveGallerySrc(src),
+				title: meta.title,
+			};
+		})
+		.filter((item) => !item.draft)
+		.sort((a, b) => {
+			const pinDiff = Number(b.pin) - Number(a.pin);
+			if (pinDiff !== 0) return pinDiff;
+
+			const dateDiff = parseMaybeDate(b.date) - parseMaybeDate(a.date);
+			if (dateDiff !== 0) return dateDiff;
+
+			return a.title.localeCompare(b.title, "uk-UA");
+		});
 }

@@ -1,8 +1,9 @@
 ---
 import { getCollection } from "astro:content";
+import { getVisibleWikiPages } from "@/data/landing";
 import LandingLayout from "@/layouts/Landing.astro";
 
-const allWiki = (await getCollection("wiki")).sort((a, b) => a.data.order - b.data.order);
+const allWiki = getVisibleWikiPages(await getCollection("wiki"));
 ---
 
 <LandingLayout meta={{ title: "Вікі — Pinecraft", description: "Усе необхідне для початку та розвитку на Pinecraft." }}>

@@ -38,6 +38,8 @@ const wiki = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
+		draft: z.boolean().default(false),
+		pin: z.boolean().default(false),
 		icon: z.string().optional().default("📄"),
 		badge: z.string().optional(),
 		badgeColor: z.string().optional().default("#4ade80"),
@@ -51,6 +53,7 @@ const event = defineCollection({
 		title: z.string(),
 		date: z.string(),
 		description: z.string().min(50),
+		draft: z.boolean().default(false),
 		imageUrl: z.string().optional(),
 		bannerUrl: z.string().optional(),
 		reward: z.string().optional(),

@@ -1,4 +1,5 @@
 ---
+import { getVisibleEvents } from "@/data/landing";
 import type { EventEntry } from "@/types";
 import { getCollection } from "astro:content";
 
@@ -21,7 +22,7 @@ const statusConfig: Record<Status, { label: string; bg: string; color: string }>
 const cfg = statusConfig[status as Status];
 
 // All events for recent-events sidebar
-const allEvents = (await getCollection("event")) as EventEntry[];
+const allEvents = getVisibleEvents((await getCollection("event")) as EventEntry[]);
 ---
 
 <LandingLayout meta={{ title: `${title} — Pinecraft`, description }}>

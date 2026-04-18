@@ -7,10 +7,12 @@ import EventPost from "@/layouts/EventPost.astro";
 
 export const getStaticPaths = (async () => {
 	const entries = (await getCollection("event")) as EventEntry[];
-	return entries.map((entry) => ({
-		params: { slug: entry.slug },
-		props: { entry },
-	}));
+	return entries
+		.filter((entry) => !entry.data.draft)
+		.map((entry) => ({
+			params: { slug: entry.slug },
+			props: { entry },
+		}));
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { getVisibleEvents } from "@/data/landing";
 import LandingLayout from "@/layouts/Landing.astro";
 import { siteConfig } from "@/site-config";
 import type { EventEntry } from "@/types";
@@ -7,10 +8,7 @@ import type { EventEntry } from "@/types";
 const allEvents = (await getCollection("event")) as EventEntry[];
 
 type Status = "upcoming" | "active" | "ended";
-const statusOrder: Record<Status, number> = { active: 0, upcoming: 1, ended: 2 };
-const sorted = allEvents.sort(
-	(a, b) => statusOrder[a.data.status as Status] - statusOrder[b.data.status as Status],
-);
+const sorted = getVisibleEvents(allEvents);
 
 const statusConfig: Record<Status, { label: string; bg: string; color: string }> = {
 	upcoming: { label: "Майбутня",  bg: "rgba(74,222,128,0.12)",  color: "#4ade80" },
