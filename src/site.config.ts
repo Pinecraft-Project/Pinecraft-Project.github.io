@@ -1,31 +1,8 @@
+import rawSiteConfig from "./site.config.json";
 import type { SiteConfig } from "@/types";
 import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
 
-export const siteConfig: SiteConfig = {
-	author: "Pinecraft",
-	authorGithub: "https://github.com/Fulldroper/",
-	date: {
-		locale: "uk-UA",
-		options: {
-			day: "numeric",
-			month: "short",
-			year: "numeric",
-		},
-	},
-	description: "Створи свою країну. Напиши свою історію. Pinecraft — ваніла+ Minecraft сервер з містами, націями, альянсами та голосовим чатом наближення.",
-	lang: "uk-UA",
-	ogLocale: "uk_UA",
-	server: {
-		address: "play.pinecraft.top",
-		discordUrl: "https://discord.pinecraft.top/",
-		mapUrl: "https://map.pinecraft.top",
-	},
-	sortPostsByUpdatedDate: false,
-	title: "Pinecraft — Створи свою Націю",
-	webmentions: {
-		link: "",
-	},
-};
+export const siteConfig = rawSiteConfig as SiteConfig;
 
 // Used to generate links in both the Header & Footer.
 export const menuLinks: { path: string; title: string }[] = [
