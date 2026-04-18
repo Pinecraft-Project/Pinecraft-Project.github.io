@@ -4,7 +4,7 @@ description: "Чернетка опису для майбутнього допи
 publishDate: "18 Apr 2026"
 updatedDate: "18 Apr 2026"
 tags: ["draft"]
-draft: false
+draft: true
 pin: false
 ---
 # Новий допис
