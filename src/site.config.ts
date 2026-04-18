@@ -15,6 +15,11 @@ export const siteConfig: SiteConfig = {
 	description: "Створи свою країну. Напиши свою історію. Pinecraft — ваніла+ Minecraft сервер з містами, націями, альянсами та голосовим чатом наближення.",
 	lang: "uk-UA",
 	ogLocale: "uk_UA",
+	server: {
+		address: "play.pinecraft.top",
+		discordUrl: "https://discord.pinecraft.top/",
+		mapUrl: "https://map.pinecraft.top",
+	},
 	sortPostsByUpdatedDate: false,
 	title: "Pinecraft — Створи свою Націю",
 	webmentions: {

@@ -1,0 +1,15 @@
+{
+  "title": "Спільнота",
+  "links": [
+    {
+      "key": "discord",
+      "icon": "discord",
+      "label": "Discord"
+    },
+    {
+      "key": "map",
+      "icon": "map",
+      "label": "Жива карта"
+    }
+  ]
+}

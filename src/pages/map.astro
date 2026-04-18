@@ -1,6 +1,7 @@
 ---
 import MapEmbed from "@/components/landing/MapEmbed.astro";
 import LandingLayout from "@/layouts/Landing.astro";
+import { siteConfig } from "@/site-config";
 ---
 
 <LandingLayout meta={{ title: "Карта Світу — Pinecraft" }}>
@@ -14,7 +15,7 @@ import LandingLayout from "@/layouts/Landing.astro";
 					</p>
 				</div>
 				<a
-					href="https://map.pinecraft.top"
+					href={siteConfig.server.mapUrl}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-accent/25 text-accent text-sm hover:bg-accent/5 hover:border-accent/50 transition-all"

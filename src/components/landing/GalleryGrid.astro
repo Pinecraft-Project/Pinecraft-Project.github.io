@@ -1,11 +1,5 @@
 ---
-interface GalleryItem {
-	alt: string;
-	caption?: string;
-	src?: string;
-	/** hex accent used for the placeholder gradient */
-	accent?: string;
-}
+import type { GalleryItem } from "@/data/gallery";
 
 interface Props {
 	items: GalleryItem[];
@@ -13,40 +7,6 @@ interface Props {
 
 const { items } = Astro.props;
 
-const rawImages = import.meta.glob<string>(
-	"/src/assets/gallery/*.{jpg,jpeg,png,webp,gif}",
-	{ eager: true, import: "default" },
-);
-
-function normalizeGalleryFilename(filename: string) {
-	try {
-		return decodeURIComponent(filename);
-	} catch {
-		return filename;
-	}
-}
-
-function resolveGallerySrc(src: unknown) {
-	if (typeof src === "string") return src;
-	if (src && typeof src === "object" && "src" in src) {
-		const imageSrc = (src as { src?: unknown }).src;
-		return typeof imageSrc === "string" ? imageSrc : "";
-	}
-	return "";
-}
-
-const images = Object.entries(rawImages).map(([path, src]) => {
-	const filename = normalizeGalleryFilename(path.split("/").pop() ?? "");
-	const caption = filename
-		.replace(/\.[^.]+$/, "")
-		.replace(/[+_-]/g, " ")
-		.replace(/\s+/g, " ")
-		.trim()
-		.replace(/\b\w/g, (c) => c.toUpperCase());
-	return { src: resolveGallerySrc(src), alt: caption, caption };
-});
-
-// Gradient palettes for placeholder tiles
 const gradients = [
 	"linear-gradient(135deg, #071820 0%, #0a2e14 100%)",
 	"linear-gradient(135deg, #0d1f0d 0%, #1a3a1a 100%)",
@@ -55,20 +15,31 @@ const gradients = [
 	"linear-gradient(135deg, #081218 0%, #0f2410 100%)",
 	"linear-gradient(135deg, #0a1420 0%, #15350e 100%)",
 ];
+
+const displayItems = items.length > 0
+	? items
+	: gradients.map((_, index) => ({
+		alt: `Placeholder ${index + 1}`,
+		caption: "",
+		date: "",
+		fileName: `placeholder-${index + 1}`,
+		src: "",
+		title: "",
+	}));
 ---
 
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" role="list" aria-label="Gallery" id="gallery-grid">
 	{
-		(images.length > 0 ? images.slice(0, Math.max(items.length, 6)) : items).map((item: any, i: number) => (
+		displayItems.map((item, i: number) => (
 			<div
 				class="glass-card rounded-xl overflow-hidden aspect-video group cursor-pointer hover:scale-105 transition-transform duration-300 hover:border-accent/30 relative gallery-item"
 				style={`border-color: rgba(74,222,128,0.1); background: ${gradients[i % gradients.length]};`}
 				role="listitem"
-				title={item.caption ?? item.alt}
+				title={item.date ? `${item.caption} • ${item.date}` : item.caption ?? item.alt}
 				data-gallery-index={i}
 				data-gallery-src={item.src ? item.src : undefined}
 				data-gallery-alt={item.alt}
-				data-gallery-caption={item.caption}
+				data-gallery-caption={item.date ? `${item.caption} • ${item.date}` : item.caption}
 			>
 				{
 					item.src ? (
@@ -82,9 +53,12 @@ const gradients = [
 								loading="lazy"
 								decoding="async"
 							/>
-							<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+							<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
 								{item.caption && (
-									<span class="text-xs text-white/90 leading-tight">{item.caption}</span>
+									<div class="flex flex-col gap-0.5">
+										<span class="text-xs text-white/90 leading-tight">{item.caption}</span>
+										{item.date && <span class="text-[10px] text-white/65">{item.date}</span>}
+									</div>
 								)}
 							</div>
 						</>
@@ -108,7 +82,7 @@ const gradients = [
 </div>
 
 {
-	images.length > 0 && (
+	items.length > 0 && (
 		<>
 			{/* Gallery Modal */}
 			<div

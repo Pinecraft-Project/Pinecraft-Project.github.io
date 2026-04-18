@@ -10,6 +10,11 @@ export interface SiteConfig {
 	description: string;
 	lang: string;
 	ogLocale: string;
+	server: {
+		address: string;
+		discordUrl: string;
+		mapUrl: string;
+	};
 	sortPostsByUpdatedDate: boolean;
 	title: string;
 	webmentions?: {
@@ -122,6 +127,7 @@ export interface EventData {
 	bannerUrl?: string;
 	reward?: string;
 	badge?: string;
+	pin?: boolean;
 	status: "upcoming" | "active" | "ended";
 }
 

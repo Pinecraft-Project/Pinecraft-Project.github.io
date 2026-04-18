@@ -1,10 +1,15 @@
 ---
+import { siteConfig } from "@/site-config";
+
+const serverAddress = siteConfig.server.address;
+const statusApiUrl = `https://api.mcsrvstat.us/3/${serverAddress}`;
 ---
 
 <div
 	class="glass-card rounded-2xl p-6 max-w-lg mx-auto w-full"
 	style="border-color: rgba(74,222,128,0.15);"
 	id="server-status-card"
+	data-status-api-url={statusApiUrl}
 >
 	<div class="flex items-center justify-between mb-6">
 		<h3 class="text-base font-bold text-white">Статус сервера</h3>
@@ -33,7 +38,7 @@
 	</div>
 
 	<div class="mt-5 pt-5 border-t border-white/5 flex items-center justify-between text-xs text-textColor/40">
-		<span class="font-mono">play.pinecraft.top</span>
+		<span class="font-mono">{serverAddress}</span>
 		<button
 			id="refresh-status"
 			class="hover:text-accent transition-colors"
@@ -48,17 +53,21 @@
 
 <script>
 	async function fetchStatus() {
+		const card = document.getElementById("server-status-card");
+		const statusApiUrl = card?.getAttribute("data-status-api-url");
 		const badge = document.getElementById("status-badge")!;
 		const playerCount = document.getElementById("player-count")!;
 		const maxPlayers = document.getElementById("max-players")!;
 		const serverVersion = document.getElementById("server-version")!;
+
+		if (!statusApiUrl) return;
 
 		badge.textContent = "Перевірка...";
 		badge.style.background = "rgba(100,116,139,0.2)";
 		badge.style.color = "#94a3b8";
 
 		try {
-			const res = await fetch("https://api.mcsrvstat.us/3/play.pinecraft.top", {
+			const res = await fetch(statusApiUrl, {
 				signal: AbortSignal.timeout(6000),
 			});
 			if (!res.ok) throw new Error("HTTP error");
