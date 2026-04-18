@@ -1,8 +1,6 @@
 ---
 title: "Міста та Нації"
 description: "Як працює механіка територій на сервері"
-draft: false
-pin: false
 icon: "🏛️"
 badge: "Основна механіка"
 badgeColor: "#a3e635"
