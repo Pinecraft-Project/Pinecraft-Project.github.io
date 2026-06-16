@@ -1,5 +1,5 @@
 ---
-title: "Cosmetics"
+title: "Капелюшки та Костюмчики"
 description: "Косметика / Персоналізація "
 icon: "🎩"
 badge: "Косметика"
