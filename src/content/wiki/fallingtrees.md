@@ -6,7 +6,6 @@ badge: "Гайд"
 badgeColor: "#4ade80"
 order: 4
 ---
-# 🌲 FallingTree
 
 **Сторона:** Лише сервер  
 **Modrinth:** [fallingtree](https://modrinth.com/mod/fallingtree)
