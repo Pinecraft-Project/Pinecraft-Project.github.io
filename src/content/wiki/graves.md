@@ -6,7 +6,6 @@ badge: "QoL"
 badgeColor: "#4ade80"
 order: 4
 ---
-# ⚰️ Могили (Universal Graves)
 **Сторона:** Лише сервер  
 **Modrinth:** [universal-graves](https://modrinth.com/mod/universal-graves)
 
