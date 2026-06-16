@@ -4,7 +4,7 @@ description: "Генерація світу / Структури "
 icon: "🧭"
 badge: "info"
 badgeColor: "#4ade80"
-order: 5
+order: 3
 ---
 # 🧭 Explorify
  
