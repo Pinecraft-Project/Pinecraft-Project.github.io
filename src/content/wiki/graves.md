@@ -3,7 +3,7 @@ title: "Могилки"
 description: "Захист після смерті"
 icon: "⚰️"
 badge: "QoL"
-badgeColor: "#4ade80"
+badgeColor: "#e01b24"
 order: 4
 ---
 **Сторона:** Лише сервер  
