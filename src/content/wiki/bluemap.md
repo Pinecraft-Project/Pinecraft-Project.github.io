@@ -3,7 +3,7 @@ title: "Мапа!"
 description: "Картографія / Веб-перегляд  "
 icon: "🗺️"
 badge: "Мапа"
-badgeColor: "#4ade80"
+badgeColor: "#ff7800"
 order: 2
 ---
 **Сторона:** Лише сервер  
