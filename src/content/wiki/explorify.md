@@ -3,7 +3,7 @@ title: "Explorify"
 description: "Досліджуй наш світ з структурами що не впливають на відчуття від ваніли!"
 icon: "🧭"
 badge: "Структури"
-badgeColor: "#4ade80"
+badgeColor: "#1c71d8"
 order: 5
 ---
 
