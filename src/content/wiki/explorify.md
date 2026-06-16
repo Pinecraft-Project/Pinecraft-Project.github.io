@@ -6,8 +6,7 @@ badge: "info"
 badgeColor: "#4ade80"
 order: 5
 ---
-# 🧭 Explorify
- 
+
 **Сторона:** Лише сервер  
 **Modrinth:** [explorify](https://modrinth.com/datapack/explorify)  
 
