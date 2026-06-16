@@ -3,7 +3,7 @@ title: "Імена для Жителів"
 description: "Трошки занурення та зручності для ваших селян."
 icon: "🏷️"
 badge: "Занурення"
-badgeColor: "#4ade80"
+badgeColor: "#b48ead"
 order: 11
 ---
 ## Що це таке
