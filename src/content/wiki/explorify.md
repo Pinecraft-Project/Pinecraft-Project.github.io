@@ -1,6 +1,6 @@
 ---
 title: "Explorify"
-description: "Генерація світу / Структури "
+description: "Досліджуй наш світ з структурами що не впливають на відчуття від ваніли!"
 icon: "🧭"
 badge: "Структури"
 badgeColor: "#4ade80"
