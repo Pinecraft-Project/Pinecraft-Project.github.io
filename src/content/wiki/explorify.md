@@ -2,7 +2,7 @@
 title: "Explorify"
 description: "Генерація світу / Структури "
 icon: "🧭"
-badge: "info"
+badge: "Структури"
 badgeColor: "#4ade80"
 order: 5
 ---
