@@ -1,12 +1,11 @@
 ---
-title: "Bluemap"
+title: "Мапа!"
 description: "Картографія / Веб-перегляд  "
 icon: "🗺️"
 badge: "Мапа"
 badgeColor: "#4ade80"
 order: 1
 ---
-# 🗺️ BlueMap
 **Сторона:** Лише сервер  
 **Modrinth:** [bluemap](https://modrinth.com/plugin/bluemap)
 
