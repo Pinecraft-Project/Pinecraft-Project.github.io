@@ -3,7 +3,7 @@ title: "Капелюшки та Костюмчики"
 description: "Косметика / Персоналізація "
 icon: "🎩"
 badge: "Косметика"
-badgeColor: "#4ade80"
+badgeColor: "#ff7800"
 order: 9
 ---
  **Сторона:** Лише сервер
