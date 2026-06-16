@@ -1,8 +1,6 @@
 ---
 title: "Маркери"
 description: "Як додавати власні маркери на карті"
-draft: false
-pin: false
 icon: "📍"
 badge: "Гайд"
 badgeColor: "#4ade80"
